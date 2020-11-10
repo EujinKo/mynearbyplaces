@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import availableStates from './ServerInterface/states.js';
 import availableOptions from './ServerInterface/options.js';
 import 'bootstrap/dist/css/bootstrap.css'
@@ -36,10 +37,10 @@ class Home extends React.Component {
                     />{' '}
                     <Navbar.Brand>My Nearby Places</Navbar.Brand>
                     <Nav className="mr-auto">
-                        <Nav.Link href='/mynearbyplaces' disabled>Home</Nav.Link>
+                        <Nav.Link as={Link} to='/' disabled>Home</Nav.Link>
                         {this.state.username.length > 0 
                             ? <Navbar.Text>Hello, {this.state.username}</Navbar.Text>
-                            :<Nav.Link href='/login'>Login</Nav.Link>}
+                            :<Nav.Link as={Link} to='/login'>Login</Nav.Link>}
 
                     </Nav>
                 </Navbar>

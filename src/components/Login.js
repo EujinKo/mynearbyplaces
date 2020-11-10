@@ -1,5 +1,5 @@
 import React from 'react';
-import {Redirect} from 'react-router-dom';
+import {Redirect,Link} from 'react-router-dom';
 import { Navbar,Nav,Form,Row,Col,Button,Container } from 'react-bootstrap';
 
 
@@ -17,9 +17,8 @@ class Login extends React.Component {
                 <Navbar bg="dark" variant="dark">
                     <Navbar.Brand>My Nearby Places</Navbar.Brand>
                     <Nav className="mr-auto">
-                        <Nav.Link href="/mynearbyplaces">Home</Nav.Link>
-                        <Nav.Link href="/addservice">Add Services</Nav.Link>
-                        <Nav.Link href='/login' disabled>Login</Nav.Link>
+                        <Nav.Link as={Link} to='/' >Home</Nav.Link>
+                        <Nav.Link as={Link} to='/login' disabled>Login</Nav.Link>
                     </Nav>
                 </Navbar>
             </div>
