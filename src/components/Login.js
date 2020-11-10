@@ -1,5 +1,6 @@
 import React from 'react';
-import {Redirect} from 'react-router-dom';
+import {Redirect, Link} from 'react-router-dom';
+import { Navbar,Nav,Form,Row,Col,FormControl,Button,Container } from 'react-bootstrap';
 
 
 class Login extends React.Component {
@@ -10,6 +11,20 @@ class Login extends React.Component {
             authenticated: false
         };
     }    
+    navigationBar(){
+        return (
+            <div>
+                <Navbar bg="dark" variant="dark">
+                    <Navbar.Brand>My Nearby Places</Navbar.Brand>
+                    <Nav className="mr-auto">
+                        <Nav.Link href="/mynearbyplaces">Home</Nav.Link>
+                        <Nav.Link href='/login' disabled>Login</Nav.Link>
+                    </Nav>
+                </Navbar>
+            </div>
+        );
+    }
+
     onSubmit = (event) => {
         //You don't access the DOM object directly
         if(this.state.username.trim().length > 0){  //trim(): removes space at the beginning and the end
@@ -43,17 +58,26 @@ class Login extends React.Component {
 
         return(
             <div>
+                {this.navigationBar()}
                 <br></br>
-                <form onSubmit={this.onSubmit}>
-                    <label>Username:</label>
-                    <input
-                    type="text"
-                    name="username"
-                    value={this.state.username}
-                    onChange={this.onInputChange} //Normal react tag has onChange on every tag
-                    ></input>
-                    <button type="submit" className="MyButton">Login</button>
-                </form>
+                <Container>
+                    <Form  onSubmit={this.onSubmit}>
+                        <Form.Group as={Row} controlId="formPlaintextPassword">
+                            <Form.Label column sm="2">
+                            Username
+                            </Form.Label>
+                            <Col sm="10">
+                            <Form.Control
+                                name = "username"
+                                placeholder="username"
+                                onChange={this.onInputChange} />
+                            </Col>
+                        </Form.Group>
+                        <Form.Group>
+                            <Button variant="outline-primary" type="submit">Login</Button>
+                        </Form.Group>
+                    </Form>
+                </Container>
             </div>
         );
     }

@@ -18,6 +18,7 @@ function App() {
         <Route path='/login'>
           <Login />
         </Route>
+
       </Switch>
     </BrowserRouter>
   );
