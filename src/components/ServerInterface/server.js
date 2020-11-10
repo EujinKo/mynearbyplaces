@@ -1,6 +1,5 @@
 import data from './entries';
 let getEntries = (type,state) => {
-    var entry;
     //Later on we will connect to a backend and fetch all the entries
     let result = data.find(element => element.type === type);
     if(result){
@@ -27,13 +26,19 @@ let add = (type, state, name, location, rate) => {
             state: state,
             location: location,
             rate: rate,
+            reviews: []
         })
         console.log(result);
         console.log(data);
     }
 }
 
-
+let addReview = (type,state,review,index) => {
+    let result = data.find(element => element.type === type);
+    if(result){
+        result.entries[state][index].reviews.push(review);
+    }
+}
 
 
 let server = {
@@ -54,6 +59,9 @@ let server = {
     },
     addEntry : (type,state, name, location,rate) => {
         add(type, state, name, location, rate);
+    },
+    addReview: (type, state, review, index) => {
+        addReview(type,state,review,index);
     }
 
 };

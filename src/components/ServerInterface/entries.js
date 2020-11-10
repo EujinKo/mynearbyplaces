@@ -12,6 +12,7 @@ let data = [
                     state: "AZ",
                     location: "5210 N Central Ave Phoenix, AZ 85012",
                     rate: 4,
+                    reviews: ["Awful place","great"]
                 },
                 {
                     name: "Federal Pizza",
@@ -19,6 +20,7 @@ let data = [
                     state: "AZ",
                     location: "5210 N Central Ave Phoenix, AZ 85012",
                     rate: 4,
+                    reviews: []
                 },
                 {
                     name: "Federal Pizza",
@@ -26,6 +28,7 @@ let data = [
                     state: "AZ",
                     location: "5210 N Central Ave Phoenix, AZ 85012",
                     rate: 4,
+                    reviews: []
                 }
             ],
             'AR': [],

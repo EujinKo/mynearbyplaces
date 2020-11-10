@@ -1,11 +1,11 @@
 import React from 'react';
 import availableStates from './ServerInterface/states.js';
 import availableOptions from './ServerInterface/options.js';
-import { Link,Redirect } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css'
-import { Navbar,Nav,Form,FormControl,Button,Container,Col,ListGroup} from 'react-bootstrap';
+import { Navbar,Nav,Form,Button,Col,ListGroup} from 'react-bootstrap';
 import SelectEntry from './ServerInterface/SelectEntry.js';
 import server from './ServerInterface/server';
+import Logo from "./Images/logo.png";
 //Link: for client side swithcing
 //Button: for server side
 
@@ -27,6 +27,13 @@ class Home extends React.Component {
         return (
             <div>
                 <Navbar bg="dark" variant="dark">
+                    <img
+                        alt=""
+                        src={Logo}
+                        width="30"
+                        height="30"
+                        className="d-inline-block align-top"
+                    />{' '}
                     <Navbar.Brand>My Nearby Places</Navbar.Brand>
                     <Nav className="mr-auto">
                         <Nav.Link href='/mynearbyplaces' disabled>Home</Nav.Link>
@@ -42,40 +49,47 @@ class Home extends React.Component {
 
     searchBar(){
         return(
-            <Navbar bg="light" variant="light">
-                <Form inline onSubmit={
-                    (e)=>{
-                        e.preventDefault(); 
-                        var option = document.getElementById('option').value;
-                        var place = document.getElementById('place').value;
-                        this.startSearching(option,place);
-                    }
-                }>
-                    <Col xs="auto">
-                        <Navbar.Text>Options</Navbar.Text>
-                    </Col>
+            <div>
+                <Navbar bg="dark" variant="dark">
+                    <Navbar.Brand> Search Engine </Navbar.Brand>
+                </Navbar>
+                <Navbar bg="light" variant="light">
+                    <Form inline onSubmit={
+                        (e)=>{
+                            e.preventDefault(); 
+                            var option = document.getElementById('option').value;
+                            var place = document.getElementById('place').value;
+                            this.startSearching(option,place);
+                        }
+                    }>
+                        <Col xs="auto">
+                            <Navbar.Text>Options</Navbar.Text>
+                        </Col>
 
-                    <Col xs="auto">
-                        <Form.Control id='option' as="select" defaultValue="Choose...">
-                            <option key='default'>Choose...</option>
-                            {this.populateOption()}
-                        </Form.Control>
-                    </Col>
-                    <Col xs="auto">
-                        <Navbar.Text>Place</Navbar.Text>
-                    </Col>
-                    <Col xs="auto">
-                        <Form.Control id='place' as="select" defaultValue="Choose...">
-                            <option>Choose...</option>
-                            {this.populateStatesOption()}
-                        </Form.Control>
-                    </Col>
+                        <Col xs="auto">
+                            <Form.Control id='option' as="select" defaultValue="Choose...">
+                                <option key='default'>Choose...</option>
+                                {this.populateOption()}
+                            </Form.Control>
+                        </Col>
+                        <Col xs="auto">
+                            <Navbar.Text>Place</Navbar.Text>
+                        </Col>
+                        <Col xs="auto">
+                            <Form.Control id='place' as="select" defaultValue="Choose...">
+                                <option>Choose...</option>
+                                {this.populateStatesOption()}
+                            </Form.Control>
+                        </Col>
 
-                    <Button variant="outline-info" type="submit">Search</Button>
-                </Form>
-            </Navbar>
+                        <Button variant="outline-info" type="submit">Search</Button>
+                    </Form>
+                </Navbar>
+            </div>
         );
     }
+
+
     populateStatesOption(data){
         return(
             availableStates.map(data=>
@@ -95,13 +109,22 @@ class Home extends React.Component {
             place: place
         });
 
-        let result,entry;
+        let result;
         // console.log("option: "+option+", place: "+place);
         this.setState({
             isSearching: true
         });
         if(option === "Restaurants"){
             result = server.fetchRestaurants(place);
+        }
+        if(option === "Dentists"){
+            result = server.fetchDentists(place);
+        }
+        if(option === "Shopping Malls"){
+            result = server.fetchShoppingMalls(place);
+        }
+        if(option === "Dry Cleaning"){
+            result = server.fetchDryCleaning(place);
         }
         console.log(result);
         if(result === undefined){
@@ -113,25 +136,55 @@ class Home extends React.Component {
 
     }
 
+    populateReviews(array){
+        var result='';
+        for(let i=1;i<array.length+1;i++){
+            result += i+". "+array[i-1]+" ";
+        }
+        return result;
+    }
 
     searchResult(){
         let result = this.state.entries;
-        let option = this.state;
 
         return(
             result.map((data,index) =>
             <ListGroup.Item key= {index}>
-                {data.name}, location: {data.location}
-                <Button variant="outline-danger" size="sm"
-                    onClick={
-                        function(){
-                            console.log("before"+ data.state);
-                            server.removeEntry(data.option, data.state, index);
+                {data.name}
+                <br/>Location: {data.location}
+                <br/>Rate: {data.rate}
+                <br/>Reviews: {this.populateReviews(data.reviews)}
+                <br/>
+                <Form inline onSubmit={
+                        (e)=>{
+                            e.preventDefault();
+                            var review = document.getElementById('addReview'+index).value;
+                            server.addReview(data.option, data.state, review, index);
+                            this.startSearching(data.option, data.state);
                         }
-
                     }>
-                    Delete
+                    <Navbar.Text>Add Review</Navbar.Text>
+                    <Col xs="auto">
+                        <Form.Group controlId="exampleForm.ControlTextarea1">
+                            <Form.Control id={"addReview"+index} as="textarea" rows={1} />
+                        </Form.Group>
+                    </Col>
+                    <Button variant="outline-success" size="sm" type="submit">
+                        Add Review
                     </Button>
+                </Form>
+
+                <Form inline onSubmit={
+                        (e)=>{
+                            e.preventDefault(); 
+                            server.removeEntry(data.option, data.state, index);
+                            this.startSearching(data.option, data.state);
+                        }
+                    }>
+                    <Button variant="outline-danger" size="sm" type="submit">
+                        Delete Place
+                    </Button>
+                </Form>
             </ListGroup.Item>
            )
         );
@@ -198,62 +251,67 @@ class Home extends React.Component {
 
     addBar(){
         return(
-            <Navbar bg="light" variant="light">
-                <Form inline onSubmit={
-                    (e)=>{
-                        e.preventDefault(); 
-                        var option = document.getElementById('option').value;
-                        var place = document.getElementById('place').value;
-                        var name = document.getElementById('name').value;
-                        var location = document.getElementById('location').value;
-                        var rate = document.getElementById('rate').value;
-                        this.addService(option,place,name,location,rate);
-                    }
-                }>
-                    <Col xs="auto">
-                        <Navbar.Text>Options</Navbar.Text>
-                    </Col>
+            <div>
+                <Navbar bg="dark" variant="dark">
+                    <Navbar.Brand> Add Service </Navbar.Brand>
+                </Navbar>
+                <Navbar bg="light" variant="light">
+                    <Form inline onSubmit={
+                        (e)=>{
+                            e.preventDefault(); 
+                            var option = document.getElementById('addoption').value;
+                            var place = document.getElementById('addplace').value;
+                            var name = document.getElementById('addname').value;
+                            var location = document.getElementById('addlocation').value;
+                            var rate = document.getElementById('addrate').value;
+                            this.addService(option,place,name,location,rate);
+                        }
+                    }>
+                        <Col xs="auto">
+                            <Navbar.Text>Options</Navbar.Text>
+                        </Col>
 
-                    <Col xs="auto">
-                        <Form.Control id='option' as="select" defaultValue="Choose...">
-                            <option key='default'>Choose...</option>
-                            {this.populateOption()}
-                        </Form.Control>
-                    </Col>
-                    <Col xs="auto">
-                        <Navbar.Text>Place</Navbar.Text>
-                    </Col>
-                    <Col xs="auto">
-                        <Form.Control id='place' as="select" defaultValue="Choose...">
-                            <option>Choose...</option>
-                            {this.populateStatesOption()}
-                        </Form.Control>
-                    </Col>
-                    <Navbar.Text>Location</Navbar.Text>
-                    <Col xs="auto">
-                        <Form.Group controlId="exampleForm.ControlTextarea1">
-                            <Form.Control id='location' as="textarea" rows={1} />
-                        </Form.Group>
-                    </Col>
-                    <Navbar.Text>Name</Navbar.Text>
-                    <Col xs="auto">
-                        <Form.Group controlId="exampleForm.ControlTextarea1">
-                            <Form.Control id='name' as="textarea" rows={1} />
-                        </Form.Group>
-                    </Col>
-                    <Navbar.Text>Rate</Navbar.Text>
-                    <Col xs="auto">
-                        <Form.Control id='rate' as="select" defaultValue="Choose...">
-                            <SelectEntry entry={1} key={'rate1'} />
-                            <SelectEntry entry={2} key={'rate2'} />
-                            <SelectEntry entry={3} key={'rate3'} />
-                            <SelectEntry entry={4} key={'rate4'} />
-                            <SelectEntry entry={5} key={'rate5'} />
-                        </Form.Control>
-                    </Col>
-                    <Button variant="outline-info" type="submit">Add</Button>
-                </Form>
-            </Navbar>
+                        <Col xs="auto">
+                            <Form.Control id='addoption' as="select" defaultValue="Choose...">
+                                <option key='default'>Choose...</option>
+                                {this.populateOption()}
+                            </Form.Control>
+                        </Col>
+                        <Col xs="auto">
+                            <Navbar.Text>Place</Navbar.Text>
+                        </Col>
+                        <Col xs="auto">
+                            <Form.Control id='addplace' as="select" defaultValue="Choose...">
+                                <option>Choose...</option>
+                                {this.populateStatesOption()}
+                            </Form.Control>
+                        </Col>
+                        <Navbar.Text>Location</Navbar.Text>
+                        <Col xs="auto">
+                            <Form.Group controlId="exampleForm.ControlTextarea1">
+                                <Form.Control id='addlocation' as="textarea" rows={1} />
+                            </Form.Group>
+                        </Col>
+                        <Navbar.Text>Name</Navbar.Text>
+                        <Col xs="auto">
+                            <Form.Group controlId="exampleForm.ControlTextarea1">
+                                <Form.Control id='addname' as="textarea" rows={1} />
+                            </Form.Group>
+                        </Col>
+                        <Navbar.Text>Rate</Navbar.Text>
+                        <Col xs="auto">
+                            <Form.Control id='addrate' as="select" defaultValue="Choose...">
+                                <SelectEntry entry={1} key={'rate1'} />
+                                <SelectEntry entry={2} key={'rate2'} />
+                                <SelectEntry entry={3} key={'rate3'} />
+                                <SelectEntry entry={4} key={'rate4'} />
+                                <SelectEntry entry={5} key={'rate5'} />
+                            </Form.Control>
+                        </Col>
+                        <Button variant="outline-info" type="submit">Add</Button>
+                    </Form>
+                </Navbar>
+            </div>
         );
     }
 

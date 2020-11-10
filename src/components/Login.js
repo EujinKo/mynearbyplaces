@@ -1,6 +1,6 @@
 import React from 'react';
-import {Redirect, Link} from 'react-router-dom';
-import { Navbar,Nav,Form,Row,Col,FormControl,Button,Container } from 'react-bootstrap';
+import {Redirect} from 'react-router-dom';
+import { Navbar,Nav,Form,Row,Col,Button,Container } from 'react-bootstrap';
 
 
 class Login extends React.Component {
