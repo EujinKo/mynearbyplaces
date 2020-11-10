@@ -169,8 +169,8 @@ class Home extends React.Component {
                     }>
                     <Navbar.Text>Add Review</Navbar.Text>
                     <Col xs="auto">
-                        <Form.Group controlId="exampleForm.ControlTextarea1">
-                            <Form.Control id={"addReview"+index} as="textarea" rows={1} />
+                        <Form.Group>
+                            <Form.Control id={"addReview"+index} as="textarea" rows={1} defaultValue="" />
                         </Form.Group>
                     </Col>
                     <Button variant="outline-success" size="sm" type="submit">
@@ -191,8 +191,8 @@ class Home extends React.Component {
                     }>
                     <Navbar.Text>Update Location</Navbar.Text>
                     <Col xs="auto">
-                        <Form.Group controlId="exampleForm.ControlTextarea1">
-                            <Form.Control id={"updateLocation"+index} as="textarea" rows={1} />
+                        <Form.Group>
+                            <Form.Control id={"updateLocation"+index} as="textarea" rows={1}  defaultValue=""/>
                         </Form.Group>
                     </Col>
                     <Button variant="outline-success" size="sm" type="submit">
@@ -334,13 +334,13 @@ class Home extends React.Component {
                         </Col>
                         <Navbar.Text>Location</Navbar.Text>
                         <Col xs="auto">
-                            <Form.Group controlId="exampleForm.ControlTextarea1">
+                            <Form.Group>
                                 <Form.Control id='addlocation' as="textarea" rows={1} />
                             </Form.Group>
                         </Col>
                         <Navbar.Text>Name</Navbar.Text>
                         <Col xs="auto">
-                            <Form.Group controlId="exampleForm.ControlTextarea1">
+                            <Form.Group>
                                 <Form.Control id='addname' as="textarea" rows={1} />
                             </Form.Group>
                         </Col>
