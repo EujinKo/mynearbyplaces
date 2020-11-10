@@ -13,7 +13,7 @@ let remove = (type,state,index) => {
     let result = data.find(element => element.type === type);
     console.log("type: "+type+":"+result);
     if(result){
-        alert(result.entries[state].splice(index,1));
+        result.entries[state].splice(index,1);
     }
 }
 
