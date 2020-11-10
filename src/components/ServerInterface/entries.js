@@ -12,23 +12,15 @@ let data = [
                     state: "AZ",
                     location: "5210 N Central Ave Phoenix, AZ 85012",
                     rate: 4,
-                    reviews: ["Awful place","great"]
+                    reviews: ["Eat Pizza!","Great!"]
                 },
                 {
-                    name: "Federal Pizza",
+                    name: "Denny's",
                     option: "Restaurants",
                     state: "AZ",
-                    location: "5210 N Central Ave Phoenix, AZ 85012",
-                    rate: 4,
-                    reviews: []
-                },
-                {
-                    name: "Federal Pizza",
-                    option: "Restaurants",
-                    state: "AZ",
-                    location: "5210 N Central Ave Phoenix, AZ 85012",
-                    rate: 4,
-                    reviews: []
+                    location: "8737 NW Grand Ave Peoria, AZ 85345",
+                    rate: 2,
+                    reviews: ["Awful place"]
                 }
             ],
             'AR': [],
@@ -95,7 +87,17 @@ let data = [
         entries : {
             'AL': [],
             'AK': [],
-            'AZ': [],
+            'AZ': [
+                {
+                
+                    name: "Desert Springs Dental",
+                    option: "Dentists",
+                    state: "AZ",
+                    location: "5656 S Power Rd Ste 142 Gilbert, AZ 85295",
+                    rate: 5,
+                    reviews: ["I love it! ","Nice dentist!"]
+                },
+            ],
             'AR': [],
             'CA': [],
             
@@ -160,7 +162,17 @@ let data = [
         entries : {
             'AL': [],
             'AK': [],
-            'AZ': [],
+            'AZ': [
+                {
+                
+                    name: "Biltmore Fashion Park",
+                    option: "Shopping Malls",
+                    state: "AZ",
+                    location: "2502 E Camelback Rd Phoenix, AZ 85016",
+                    rate: 4,
+                    reviews: ["Everything I needed"]
+                },
+            ],
             'AR': [],
             'CA': [],
             
@@ -225,7 +237,17 @@ let data = [
         entries : {
             'AL': [],
             'AK': [],
-            'AZ': [],
+            'AZ': [
+                {
+                
+                    name: "Organic Dry Cleaners & Laundry",
+                    option: "Dry Cleaning",
+                    state: "AZ",
+                    location: "10810 N Tatum Blvd Ste 101 Phoenix, AZ 85028",
+                    rate: 5,
+                    reviews: ["Very clean"]
+                },
+            ],
             'AR': [],
             'CA': [],
             

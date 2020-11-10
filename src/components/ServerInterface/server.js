@@ -39,8 +39,18 @@ let addReview = (type,state,review,index) => {
         result.entries[state][index].reviews.push(review);
     }
 }
-
-
+let updateLocation = (type,state,location,index) => {
+    let result = data.find(element => element.type === type);
+    if(result){
+        result.entries[state][index].location = location;
+    }
+}
+let updateRate = (type,state,rate,index) => {
+    let result = data.find(element => element.type === type);
+    if(result){
+        result.entries[state][index].rate = rate;
+    }
+}
 let server = {
     fetchRestaurants : (state) => {
         return getEntries('Restaurants',state);
@@ -62,7 +72,13 @@ let server = {
     },
     addReview: (type, state, review, index) => {
         addReview(type,state,review,index);
-    }
+    },
+    updateLocation: (type, state, location, index) => {
+        updateLocation(type,state,location,index);
+    },
+    updateRate: (type, state, rate, index) => {
+        updateRate(type,state,rate,index);
+    },
 
 };
 

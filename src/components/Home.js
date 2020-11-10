@@ -160,8 +160,11 @@ class Home extends React.Component {
                         (e)=>{
                             e.preventDefault();
                             var review = document.getElementById('addReview'+index).value;
-                            server.addReview(data.option, data.state, review, index);
-                            this.startSearching(data.option, data.state);
+                            if(review.trim().length > 0){
+                                server.addReview(data.option, data.state, review, index);
+                                this.startSearching(data.option, data.state);
+                            }
+
                         }
                     }>
                     <Navbar.Text>Add Review</Navbar.Text>
@@ -175,6 +178,48 @@ class Home extends React.Component {
                     </Button>
                 </Form>
 
+                <Form inline onSubmit={
+                        (e)=>{
+                            e.preventDefault();
+                            var location = document.getElementById('updateLocation'+index).value;
+                            if(location.trim().length > 0){
+                                server.updateLocation(data.option, data.state, location, index);
+                                this.startSearching(data.option, data.state);
+                            }
+
+                        }
+                    }>
+                    <Navbar.Text>Update Location</Navbar.Text>
+                    <Col xs="auto">
+                        <Form.Group controlId="exampleForm.ControlTextarea1">
+                            <Form.Control id={"updateLocation"+index} as="textarea" rows={1} />
+                        </Form.Group>
+                    </Col>
+                    <Button variant="outline-success" size="sm" type="submit">
+                        Update
+                    </Button>
+                </Form>
+                <Form inline onSubmit={
+                        (e)=>{
+                            e.preventDefault();
+                            var rate = document.getElementById('updateRate'+index).value;
+                            server.updateRate(data.option, data.state, rate, index);
+                            this.startSearching(data.option, data.state);
+                        }
+                    }>
+
+                    <Navbar.Text>Update Rate</Navbar.Text>
+                    <Form.Control id={'updateRate' + index} as="select" defaultValue="Choose...">
+                        <SelectEntry entry={1} key={'rate1index' + index} />
+                        <SelectEntry entry={2} key={'rate2index' + index} />
+                        <SelectEntry entry={3} key={'rate3index' + index} />
+                        <SelectEntry entry={4} key={'rate4index' + index} />
+                        <SelectEntry entry={5} key={'rate5index' + index} />
+                    </Form.Control>
+                    <Button variant="outline-success" size="sm" type="submit">
+                        Update
+                    </Button>
+                </Form>
                 <Form inline onSubmit={
                         (e)=>{
                             e.preventDefault(); 
