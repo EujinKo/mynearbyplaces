@@ -18,6 +18,7 @@ class Login extends React.Component {
                     <Navbar.Brand>My Nearby Places</Navbar.Brand>
                     <Nav className="mr-auto">
                         <Nav.Link href="/mynearbyplaces">Home</Nav.Link>
+                        <Nav.Link href="/addservice">Add Services</Nav.Link>
                         <Nav.Link href='/login' disabled>Login</Nav.Link>
                     </Nav>
                 </Navbar>

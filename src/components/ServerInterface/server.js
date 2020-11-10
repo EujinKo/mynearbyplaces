@@ -18,14 +18,22 @@ let remove = (type,state,index) => {
     }
 }
 
-let addRestaurant = (name,state,location,rate) => {
-    let result = data.find(element => element.type === "Restaurants");
+let add = (type, state, name, location, rate) => {
+    let result = data.find(element => element.type === type);
     if(result){
-        result.entries.push({
+        result.entries[state].push({
             name: name,
+            option: type,
+            state: state,
+            location: location,
+            rate: rate,
         })
+        console.log(result);
+        console.log(data);
     }
 }
+
+
 
 
 let server = {
@@ -43,6 +51,9 @@ let server = {
     },
     removeEntry : (type, state, index) => {
         remove(type, state, index);
+    },
+    addEntry : (type,state, name, location,rate) => {
+        add(type, state, name, location, rate);
     }
 
 };

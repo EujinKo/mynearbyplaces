@@ -89,7 +89,7 @@ class Home extends React.Component {
         );
     }
 
-    startSearching(option,place){
+    startSearching = (option,place) => {
         this.setState({
             option: option,
             place: place
@@ -112,10 +112,7 @@ class Home extends React.Component {
         return;
 
     }
-    // removeEntry(option,state,index){
-    //     console.log("before"+ data.state);
-    //     server.removeEntry(data.option, data.state, index);
-    // }
+
 
     searchResult(){
         let result = this.state.entries;
@@ -144,8 +141,6 @@ class Home extends React.Component {
 
     //executed only after the page is rendered
     componentDidMount(){
-        alert();
-
         const location = this.props.location;
         //Anything sent from previous page is saved in props.location
         if(location){
@@ -200,6 +195,77 @@ class Home extends React.Component {
     }
 
 
+
+    addBar(){
+        return(
+            <Navbar bg="light" variant="light">
+                <Form inline onSubmit={
+                    (e)=>{
+                        e.preventDefault(); 
+                        var option = document.getElementById('option').value;
+                        var place = document.getElementById('place').value;
+                        var name = document.getElementById('name').value;
+                        var location = document.getElementById('location').value;
+                        var rate = document.getElementById('rate').value;
+                        this.addService(option,place,name,location,rate);
+                    }
+                }>
+                    <Col xs="auto">
+                        <Navbar.Text>Options</Navbar.Text>
+                    </Col>
+
+                    <Col xs="auto">
+                        <Form.Control id='option' as="select" defaultValue="Choose...">
+                            <option key='default'>Choose...</option>
+                            {this.populateOption()}
+                        </Form.Control>
+                    </Col>
+                    <Col xs="auto">
+                        <Navbar.Text>Place</Navbar.Text>
+                    </Col>
+                    <Col xs="auto">
+                        <Form.Control id='place' as="select" defaultValue="Choose...">
+                            <option>Choose...</option>
+                            {this.populateStatesOption()}
+                        </Form.Control>
+                    </Col>
+                    <Navbar.Text>Location</Navbar.Text>
+                    <Col xs="auto">
+                        <Form.Group controlId="exampleForm.ControlTextarea1">
+                            <Form.Control id='location' as="textarea" rows={1} />
+                        </Form.Group>
+                    </Col>
+                    <Navbar.Text>Name</Navbar.Text>
+                    <Col xs="auto">
+                        <Form.Group controlId="exampleForm.ControlTextarea1">
+                            <Form.Control id='name' as="textarea" rows={1} />
+                        </Form.Group>
+                    </Col>
+                    <Navbar.Text>Rate</Navbar.Text>
+                    <Col xs="auto">
+                        <Form.Control id='rate' as="select" defaultValue="Choose...">
+                            <SelectEntry entry={1} key={'rate1'} />
+                            <SelectEntry entry={2} key={'rate2'} />
+                            <SelectEntry entry={3} key={'rate3'} />
+                            <SelectEntry entry={4} key={'rate4'} />
+                            <SelectEntry entry={5} key={'rate5'} />
+                        </Form.Control>
+                    </Col>
+                    <Button variant="outline-info" type="submit">Add</Button>
+                </Form>
+            </Navbar>
+        );
+    }
+
+    addService = (option,place,name,location,rate) =>{
+        this.setState({
+            option: option,
+            place: place
+        });
+        server.addEntry(option, place,name,location,rate);
+        // alert(option+place+name+location+rate);
+        
+    }
     render() { //mandatory method
         console.log(this.state);
         return (    //If (this.state.username.length > 0 ) == true, show the username, otherwise go to button
@@ -211,6 +277,7 @@ class Home extends React.Component {
                     ?this.searchResult()
                     :<div></div>}
                 </ListGroup>
+                {this.addBar()}
             </div>
         );
     }
