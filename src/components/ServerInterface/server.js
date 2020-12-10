@@ -1,12 +1,16 @@
 import data from './entries';
+let api = `https://eujinko-mynearbyplaces.herokuapp.com`;
+
 let getEntries = (type,state) => {
     //Later on we will connect to a backend and fetch all the entries
-    let result = data.find(element => element.type === type);
-    if(result){
-        return result.entries[state];
-    }else{
-        return [];
-    }
+    return(    fetch(api+"/search/"+type+"/"+state).then( x => {
+        return x.json();
+    }).then( y => {
+        return y;
+    }).catch(e => {
+        console.log("ERROR: From server\n"+e);
+    })
+    )
 }
 
 let remove = (type,state,index) => {
@@ -18,19 +22,21 @@ let remove = (type,state,index) => {
 }
 
 let add = (type, state, name, location, rate) => {
-    let result = data.find(element => element.type === type);
-    if(result){
-        result.entries[state].push({
+
+    fetch(api+'/place', {
+        method: 'POST',
+        headers: {
+            'Content-Type':'application/json'
+        },
+        body: JSON.stringify({
             name: name,
             option: type,
             state: state,
             location: location,
             rate: rate,
-            reviews: []
+            reviews: ''
         })
-        console.log(result);
-        console.log(data);
-    }
+    }).then( x => x.json()).then( y => console.log(y));
 }
 
 let addReview = (type,state,review,index) => {

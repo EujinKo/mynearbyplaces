@@ -116,23 +116,46 @@ class Home extends React.Component {
             isSearching: true
         });
         if(option === "Restaurants"){
-            result = server.fetchRestaurants(place);
+            result = server.fetchRestaurants(place).then(x=>{
+                if(x === undefined){
+                    this.setState({entries:[]});
+                    return;
+                }
+                this.setState({entries:x});
+                console.log(x);
+            })
         }
         if(option === "Dentists"){
-            result = server.fetchDentists(place);
+            result = server.fetchDentists(place).then(x=>{
+                if(x === undefined){
+                    this.setState({entries:[]});
+                    return;
+                }
+                this.setState({entries:x});
+                console.log(x);
+            })
         }
         if(option === "Shopping Malls"){
-            result = server.fetchShoppingMalls(place);
+            result = server.fetchShoppingMalls(place).then(x=>{
+                if(x === undefined){
+                    this.setState({entries:[]});
+                    return;
+                }
+                this.setState({entries:x});
+                console.log(x);
+            })
         }
         if(option === "Dry Cleaning"){
-            result = server.fetchDryCleaning(place);
+            result = server.fetchDryCleaning(place).then(x=>{
+                if(x === undefined){
+                    this.setState({entries:[]});
+                    return;
+                }
+                this.setState({entries:x});
+                console.log(x);
+            })
         }
-        console.log(result);
-        if(result === undefined){
-            this.setState({entries:[]});
-            return;
-        }
-        this.setState({entries:result});
+
         return;
 
     }
@@ -147,14 +170,13 @@ class Home extends React.Component {
 
     searchResult(){
         let result = this.state.entries;
-
         return(
             result.map((data,index) =>
             <ListGroup.Item key= {index}>
                 {data.name}
                 <br/>Location: {data.location}
                 <br/>Rate: {data.rate}
-                <br/>Reviews: {this.populateReviews(data.reviews)}
+                <br/>Reviews: {data.reviews}
                 <br/>
                 <Form inline onSubmit={
                         (e)=>{
