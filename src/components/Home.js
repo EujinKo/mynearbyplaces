@@ -183,7 +183,7 @@ class Home extends React.Component {
                             e.preventDefault();
                             var review = document.getElementById('addReview'+index).value;
                             if(review.trim().length > 0){
-                                server.addReview(data.option, data.state, review, index);
+                                server.addReview(data.id, review);
                                 this.startSearching(data.option, data.state);
                             }
 

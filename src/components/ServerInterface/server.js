@@ -39,12 +39,18 @@ let add = (type, state, name, location, rate) => {
     }).then( x => x.json()).then( y => console.log(y));
 }
 
-let addReview = (type,state,review,index) => {
-    let result = data.find(element => element.type === type);
-    if(result){
-        result.entries[state][index].reviews.push(review);
-    }
+let addReview = (id,review) => {
+    fetch(api+'/review/'+id, {
+        method: 'POST',
+        headers: {
+            'Content-Type':'application/json'
+        },
+        body: JSON.stringify({
+            reviews: review
+        })
+    }).then( x => x.json()).then( y => console.log(y));
 }
+
 let updateLocation = (type,state,location,index) => {
     let result = data.find(element => element.type === type);
     if(result){
@@ -76,8 +82,8 @@ let server = {
     addEntry : (type,state, name, location,rate) => {
         add(type, state, name, location, rate);
     },
-    addReview: (type, state, review, index) => {
-        addReview(type,state,review,index);
+    addReview: (id,review) => {
+        addReview(id,review);
     },
     updateLocation: (type, state, location, index) => {
         updateLocation(type,state,location,index);
